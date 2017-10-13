@@ -18,7 +18,7 @@ public class GameCanvas extends JPanel {
     int playerX = 182;
     int playerY = 520;
     int backgroundX = 0;
-    int backgroundY = 0;
+    int backgroundY = -2600;
     int enemiesX = 0;
     int enemiesY = 0;
 
@@ -50,25 +50,10 @@ public class GameCanvas extends JPanel {
         backGraphics.drawImage(enemies, enemiesX, enemiesY, null);
 
         //2. Call repaint
-        backgroundY  -= 5;
-        if(backgroundY < -2600) {
-
-            backBuffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB); //ARGB = alpha, alpha càng lớn thì càng đục, ngược lại thì trong suốt
-            backGraphics = backBuffer.getGraphics(); // lấy bút
-            //2. Load background
-            try { // thử xem link lỗi ko?
-                background = ImageIO.read(new File("assets/images/background/0.png"));
-                player = ImageIO.read(new File("assets/images/players/straight/5.png"));
-                enemies =ImageIO.read(new File("assets/images/enemies/level0/pink/0.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            backGraphics.drawImage(background, 0, 0, null);
-            backGraphics.drawImage(player, playerX, playerY, null);
-            backGraphics.drawImage(enemies, enemiesX, enemiesY, null);
-
-            backgroundY = 0;
-
+        if(backgroundY == 0) {
+            backgroundY -= 2600;
+        }else {
+            backgroundY += 5;
         }
         enemiesY += 3;
         repaint();
@@ -92,19 +77,15 @@ public class GameCanvas extends JPanel {
 
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            playerX += 5;
             rightPressed = true; // lưu vị trí
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            playerX -= 5;
             leftPressed = true;
         }
         if (e.getKeyCode() == KeyEvent.VK_UP) {
-            playerY -= 5;
             upPressed = true;
         }
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            playerY += 5;
             downPressed = true;
         }
 
@@ -113,19 +94,15 @@ public class GameCanvas extends JPanel {
 
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            playerX += 5;
             rightPressed = false; // lưu vị trí
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            playerX -= 5;
             leftPressed = false;
         }
         if (e.getKeyCode() == KeyEvent.VK_UP) {
-            playerY -= 5;
             upPressed = false;
         }
         if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            playerY += 5;
             downPressed = false;
         }
 
@@ -137,19 +114,27 @@ public class GameCanvas extends JPanel {
         int dy = 0;
 
         if (rightPressed) {
-            dx += 5;
+            if (playerX < 350) {
+                dx += 5;
+            }
         }
         if (leftPressed) {
-            dx -= 5;
+            if(playerX > 0) {
+                dx -= 5;
+            }
         }
         playerX = playerX + dx;
 
 
         if (upPressed) {
-            dy -= 5;
+            if(playerY > 0) {
+                dy -= 5;
+            }
         }
         if (downPressed) {
-            dy += 5;
+            if(playerY < 520) {
+                dy += 5;
+            }
         }
         playerY = playerY + dy;
 
