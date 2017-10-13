@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class GameWindow extends JFrame{
+public class GameWindow extends JFrame {
 
     GameCanvas canvas;
     long lastTimeUpdate; // thời gian repaint gần nhất
@@ -24,7 +24,7 @@ public class GameWindow extends JFrame{
 
             @Override
             public void windowClosing(WindowEvent e) {
-               System.exit(0); // thoát >> giải phóng bộ nhớ.
+                System.exit(0); // thoát >> giải phóng bộ nhớ.
             }
 
             @Override
@@ -85,12 +85,12 @@ public class GameWindow extends JFrame{
     public void gameLoop() {
         while (true) {
             long currentTime = System.nanoTime();
-            if(currentTime - lastTimeUpdate >= 17000000) { // đo thời gian để repaint (phù hợp với từng loại máy)
+            if (currentTime - lastTimeUpdate >= 17000000) { // đo thời gian để repaint (phù hợp với từng loại máy)
                 canvas.run();
                 canvas.render();
                 lastTimeUpdate = currentTime;
             }
         }
-    }
 
+    }
 }
