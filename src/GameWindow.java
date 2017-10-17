@@ -1,60 +1,28 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 
+/**
+ * Created by huynq on 10/11/17.
+ */
 public class GameWindow extends JFrame {
 
     GameCanvas canvas;
-    long lastTimeUpdate; // thời gian repaint gần nhất
+
+    long lastTimeUpdate;
 
     public GameWindow() {
         this.setSize(800, 600);
 
         this.canvas = new GameCanvas();
-        this.setContentPane(this.canvas); // cho canvas vào khung
-
-        this.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-
-            }
-
+        this.setContentPane(this.canvas);
+        this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                System.exit(0); // thoát >> giải phóng bộ nhớ.
+                System.exit(0);
             }
-
-            @Override
-            public void windowClosed(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowIconified(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowActivated(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-
-            }
-        }); // cách 1
-        //this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);    // cách 2: tắt màn (nếu không có vẫn chạy ngầm)
-
-        this.setResizable(false); // không cho resize màn hình lúc di chuyển
+        });
+        this.setResizable(false);
 
         this.addKeyListener(new KeyListener() {
             @Override
@@ -74,23 +42,22 @@ public class GameWindow extends JFrame {
         });
 
         this.canvas.setVisible(true);
-        this.setVisible(true);  // setVisible con trước
+        this.setVisible(true);
+
         lastTimeUpdate = System.nanoTime();
-
-
-        //this.canvas.repaint(); // báo cho canvas vẽ lại (khi ko thấy canvas vẽ)
-
     }
 
     public void gameLoop() {
-        while (true) {
+        while(true) {
+
             long currentTime = System.nanoTime();
-            if (currentTime - lastTimeUpdate >= 17000000) { // đo thời gian để repaint (phù hợp với từng loại máy)
+
+            if (currentTime - lastTimeUpdate >= 17000000) {
                 canvas.run();
                 canvas.render();
                 lastTimeUpdate = currentTime;
             }
-        }
 
+        }
     }
 }
