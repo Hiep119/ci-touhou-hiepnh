@@ -28,7 +28,19 @@ public class EnemiesBullet {
     public void run() {
         x += rd.nextInt(10);
         y += SPEED;
-        
+
+        x = (int)clamp(x,0, 350);
+    }
+    public float clamp(float value, float min, float max) {
+        if (value < min) {
+            return min;
+        }
+
+        if (value > max) {
+            return max;
+        }
+
+        return value;
     }
 
 
