@@ -1,5 +1,6 @@
 package touhou;
 
+import bases.GameObject;
 import bases.Utils;
 
 import java.awt.*;
@@ -8,22 +9,18 @@ import java.util.Random;
 
 
 
-public class EnemiesBullet {
+public class EnemiesBullet extends GameObject{
 
-    BufferedImage imageEB;
+
     final int SPEED = 5;
-    public int x;
-    public int y;
+
 
     Random rd = new Random();
 
     public EnemiesBullet() {
-        imageEB = Utils.loadImage("assets/images/enemies/bullets/blue.png");
+        image = Utils.loadImage("assets/images/enemies/bullets/blue.png");
     }
 
-    public void render(Graphics graphicsEB) {
-        graphicsEB.drawImage(imageEB, x, y, null );
-    }
 
     public void run() {
         x += rd.nextInt(10);

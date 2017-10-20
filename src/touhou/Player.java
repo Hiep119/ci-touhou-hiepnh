@@ -1,5 +1,6 @@
 package touhou;
 
+import bases.GameObject;
 import bases.Utils;
 
 import java.awt.*;
@@ -10,10 +11,7 @@ import java.util.Random;
 
 import static com.sun.javafx.util.Utils.clamp;
 
-public class Player {
-    public int X = 182;
-    public int Y = 500;
-    BufferedImage image;
+public class Player extends GameObject {
 
     boolean rightPressed;
     boolean leftPressed;
@@ -29,15 +27,19 @@ public class Player {
     final int TOP = 0;
     final int BOTTOM = 500;
 
+    boolean spellDisabled;
+    final int COOL_DOWN_TIME = 5;
+
+
     Random rd = new Random();
 
     public Player() {
+        x = 182;
+        y = 500;
         image = Utils.loadImage("assets/images/players/straight/0.png");
+        spellDisabled = false;
     }
 
-    public void render(Graphics graphics) {
-        graphics.drawImage(image, X, Y, null);
-    }
 
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -83,6 +85,13 @@ public class Player {
     }
 
     public void run() {
+
+        shoot();
+        move();
+
+    }
+
+    private void move() {
         int vx = 0;
         int vy = 0;
 
@@ -102,20 +111,32 @@ public class Player {
             vy -= SPEED;
         }
 
-        X += vx;
-        Y += vy;
+        x += vx;
+        y += vy;
 
-        X = (int)clamp(X, LEFT, RIGHT);
-        Y = (int)clamp(Y, TOP, BOTTOM);
+        x = (int)clamp(x, LEFT, RIGHT);
+        y = (int)clamp(y, TOP, BOTTOM);
     }
 
-    public void shoot(ArrayList<PlayerSpell> spells) {
-        if(xPressed && rd.nextInt(3) == 1) {
-            PlayerSpell newSpell = new PlayerSpell();
-            newSpell.x = X;
-            newSpell.y = Y;
+    int coolDownCount;
 
-            spells.add(newSpell);
+    public void shoot() {
+        if(spellDisabled) {
+            coolDownCount++;
+            if(coolDownCount >= COOL_DOWN_TIME) {
+                spellDisabled = false;
+                coolDownCount = 0;
+            }
+            return;
+        }
+
+        if(xPressed) {
+            PlayerSpell newSpell = new PlayerSpell();
+            newSpell.x = x;
+            newSpell.y = y;
+
+            GameObject.addAll(newSpell);
+            spellDisabled = true;
         }
     }
 
