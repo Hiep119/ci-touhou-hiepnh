@@ -28,16 +28,20 @@ public class Vector2D {
        this.x = vector2D.x;
        this.y = vector2D.y;
     }
+    public void setVector(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
 
     public Vector2D clone() {
         return new Vector2D(this.x, this.y);
     }
 
-    private void addUp(float x, float y) {
+    public void addUp(float x, float y) {
         this.x += x;
         this.y += y;
     }
-    private void addUp(Vector2D vector2D) {
+    public void addUp(Vector2D vector2D) {
         this.x += vector2D.x;
         this.y += vector2D.y;
     }
@@ -76,6 +80,14 @@ public class Vector2D {
         return new Vector2D(this.x * factor, this.y * factor);
     }
 
+    public float lenght() {
+        return (float) Math.sqrt(x * x + y * y);
+    }
+
+    public Vector2D normalize() {
+        float lenght = lenght();
+        return new Vector2D(this.x / lenght, this.y / lenght);
+    }
 
     public static void main(String[] args) {
         Vector2D v = new Vector2D();

@@ -8,8 +8,8 @@ public class BackGround extends GameObject{
     final int BOTTOM = -2500;
 
     public BackGround() {
-        y = -2600;
         image = Utils.loadImage("assets/images/background/0.png");
+        position.setVector(image.getWidth() / 2, TOP);
     }
 
 

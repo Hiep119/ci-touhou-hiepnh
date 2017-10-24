@@ -1,15 +1,14 @@
-package touhou;
+package touhou.player;
 
 import bases.GameObject;
 import bases.Utils;
+import bases.Vector2D;
+import bases.Clamp;
+import bases.physics.BoxCollider;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.Random;
 
-import static com.sun.javafx.util.Utils.clamp;
 
 public class Player extends GameObject {
 
@@ -23,19 +22,21 @@ public class Player extends GameObject {
     final int SPEED = 5;
 
     final int LEFT = 0;
-    final int RIGHT = 350;
+    final int RIGHT = 375;
     final int TOP = 0;
     final int BOTTOM = 500;
 
-    boolean spellDisabled;
-    final int COOL_DOWN_TIME = 5;
+    public boolean spellDisabled;
+    public final int COOL_DOWN_TIME = 5;
+
+    public BoxCollider boxCollider;
 
 
     Random rd = new Random();
 
     public Player() {
-        x = 182;
-        y = 500;
+        position.setVector(182, 500);
+        boxCollider = new BoxCollider(20, 20);
         image = Utils.loadImage("assets/images/players/straight/0.png");
         spellDisabled = false;
     }
@@ -85,40 +86,44 @@ public class Player extends GameObject {
     }
 
     public void run() {
-
+        boxCollider.position.setVector(this.position);
         shoot();
         move();
 
     }
 
+    Vector2D velocity = new Vector2D();
+
     private void move() {
-        int vx = 0;
-        int vy = 0;
+        velocity.setVector(0, 0);
+
 
         if (rightPressed) {
-            vx += SPEED;
+            velocity.x += SPEED;
         }
 
         if (leftPressed) {
-            vx -= SPEED;
+            velocity.x -= SPEED;
         }
 
         if(downPressed) {
-            vy += SPEED;
+            velocity.y += SPEED;
         }
 
         if(upPressed) {
-            vy -= SPEED;
+            velocity.y -= SPEED;
         }
 
-        x += vx;
-        y += vy;
+        position.x += velocity.x;
+        position.y += velocity.y;
 
-        x = (int)clamp(x, LEFT, RIGHT);
-        y = (int)clamp(y, TOP, BOTTOM);
+        position.x = (int)Clamp.clamp(position.x, LEFT, RIGHT);
+        position.y = (int)Clamp.clamp(position.y, TOP, BOTTOM);
+
+        position.addUp(0, 0);
     }
 
-    int coolDownCount;
+    public int coolDownCount;
 
     public void shoot() {
         if(spellDisabled) {
@@ -132,8 +137,7 @@ public class Player extends GameObject {
 
         if(xPressed) {
             PlayerSpell newSpell = new PlayerSpell();
-            newSpell.x = x;
-            newSpell.y = y;
+            newSpell.position.setVector(this.position);
 
             GameObject.addAll(newSpell);
             spellDisabled = true;
@@ -141,5 +145,8 @@ public class Player extends GameObject {
     }
 
 
-
+    public void getHit() {
+        isActive = false;
+        System.out.println("Thua");
+    }
 }

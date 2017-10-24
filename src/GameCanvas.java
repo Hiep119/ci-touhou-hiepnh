@@ -1,15 +1,13 @@
 import bases.GameObject;
-import javafx.scene.layout.Background;
 import touhou.*;
+import touhou.enemies.Enemies;
+import touhou.enemies.EnemySpawner;
+import touhou.player.Player;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Created by huynq on 10/11/17.
@@ -22,6 +20,7 @@ public class GameCanvas extends JPanel {
 
     Player player = new Player();
     Enemies enemies = new Enemies();
+    EnemySpawner enemySpawner = new EnemySpawner();
     BackGround backGround = new BackGround();
 
     public GameCanvas() {
@@ -35,6 +34,7 @@ public class GameCanvas extends JPanel {
         GameObject.addAll(backGround);
         GameObject.addAll(player);
         GameObject.addAll(enemies);
+        GameObject.addAll(enemySpawner);
     }
 
     public void render() {

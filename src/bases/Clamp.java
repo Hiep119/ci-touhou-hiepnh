@@ -2,7 +2,7 @@ package bases;
 
 public class Clamp {
 
-    public float clamp(float value, float min, float max) {
+    public static float clamp(float value, float min, float max) {
         if (value < min) {
             return min;
         }
