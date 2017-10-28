@@ -3,10 +3,11 @@ import touhou.*;
 import touhou.enemies.Enemies;
 import touhou.enemies.EnemySpawner;
 import touhou.player.Player;
+import touhou.player.Sphere1;
+import touhou.player.Sphere2;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 /**
@@ -22,6 +23,8 @@ public class GameCanvas extends JPanel {
     Enemies enemies = new Enemies();
     EnemySpawner enemySpawner = new EnemySpawner();
     BackGround backGround = new BackGround();
+    Sphere1 sphere1 = new Sphere1();
+    Sphere2 sphere2 = new Sphere2();
 
     public GameCanvas() {
         //1. Create back buffer
@@ -35,6 +38,8 @@ public class GameCanvas extends JPanel {
         GameObject.addAll(player);
         GameObject.addAll(enemies);
         GameObject.addAll(enemySpawner);
+        GameObject.addAll(sphere1);
+        GameObject.addAll(sphere2);
     }
 
     public void render() {
@@ -55,16 +60,6 @@ public class GameCanvas extends JPanel {
     }
 
 
-    public void keyPressed(KeyEvent e) {
-        player.keyPressed(e);
-
-    }
-
-
-    public void keyReleased(KeyEvent e) {
-       player.keyReleased(e);
-
-    }
 
     public void run() {
        GameObject.runAll();

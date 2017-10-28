@@ -1,3 +1,5 @@
+import touhou.Inputs.InputManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -32,12 +34,13 @@ public class GameWindow extends JFrame {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                canvas.keyPressed(e);
+                InputManager.instance.keyPressed(e);
+
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                canvas.keyReleased(e);
+                InputManager.instance.keyReleased(e);
             }
         });
 

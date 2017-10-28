@@ -25,10 +25,18 @@ public class PlayerSpell extends GameObject{
         this.position.subtractBy(0, SPEED);
         boxCollider.position.setVector(this.position);
 
-        Enemies enemies = GameObject.collideWidth(this.boxCollider);
+        Enemies enemies = GameObject.collideWidth(this.boxCollider, Enemies.class);
         if(enemies != null) {
            enemies.getHit();
            this.isActive = false;
+        }
+
+        deactiveIfNeded();
+    }
+
+    public void deactiveIfNeded() {
+        if(position.y < 0) {
+            this.isActive = false;
         }
     }
 }
